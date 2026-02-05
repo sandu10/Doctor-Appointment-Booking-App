@@ -1234,3 +1234,739 @@ class _EditAppointmentPageState extends State<EditAppointmentPage> {
     );
   }
 }
+<<<<<<< HEAD
+=======
+
+// -------------------- ALL CATEGORIES PAGE --------------------
+class AllCategoriesPage extends StatelessWidget {
+  const AllCategoriesPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final categories = [
+      {
+        "icon": Icons.psychology,
+        "label": "Neurologist",
+        "page": const NeurologistPage(),
+      },
+      {
+        "icon": Icons.medical_services,
+        "label": "Dentist",
+        "page": const DentistPage(),
+      },
+      {
+        "icon": Icons.favorite,
+        "label": "Cardiologist",
+        "page": const CardiologistPage(),
+      },
+      {
+        "icon": Icons.visibility,
+        "label": "Eye Specialist",
+        "page": const EyePage(),
+      },
+      {
+        "icon": Icons.healing,
+        "label": "General Physician",
+        "page": const GeneralPage(),
+      },
+      {
+        "icon": Icons.child_care,
+        "label": "Pediatrician",
+        "page": const PediatricianPage(),
+      },
+    ];
+
+    return Scaffold(
+      appBar: AppBar(title: const Text("All Categories")),
+      body: GridView.builder(
+        padding: const EdgeInsets.all(16),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisSpacing: 16,
+          crossAxisSpacing: 16,
+        ),
+        itemCount: categories.length,
+        itemBuilder: (context, index) {
+          final cat = categories[index];
+          return InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => cat["page"] as Widget),
+              );
+            },
+            child: Column(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEFF1FF),
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Icon(
+                    cat["icon"] as IconData,
+                    color: const Color(0xFF4F46E5),
+                    size: 32,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(cat["label"] as String, textAlign: TextAlign.center),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// -------------------- SPECIALTY DOCTOR LIST --------------------
+class SpecialtyDoctorList extends StatelessWidget {
+  final String title;
+  final List<Map<String, String>> doctors;
+
+  const SpecialtyDoctorList({
+    super.key,
+    required this.title,
+    required this.doctors,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(title)),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(12),
+        itemCount: doctors.length,
+        itemBuilder: (context, index) {
+          final doc = doctors[index];
+          return Card(
+            margin: const EdgeInsets.only(bottom: 12),
+            child: ListTile(
+              leading: const Icon(Icons.person),
+              title: Text(doc["name"]!),
+              subtitle: Text(doc["hospital"]!),
+              trailing: ElevatedButton(
+                child: const Text("Book"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => BookAppointmentPage(
+                        doctorName: doc["name"]!,
+                        specialty: title,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// -------------------- SPECIALTY PAGES --------------------
+class NeurologistPage extends StatelessWidget {
+  const NeurologistPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final doctors = [
+      {"name": "Dr. Amaya Silva", "hospital": "City Hospital"},
+      {"name": "Dr. Nuwan Perera", "hospital": "Neuro Care Center"},
+    ];
+    return SpecialtyDoctorList(title: "Neurologists", doctors: doctors);
+  }
+}
+
+class DentistPage extends StatelessWidget {
+  const DentistPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final doctors = [
+      {"name": "Dr. Shehani Fernando", "hospital": "Smile Dental Clinic"},
+      {"name": "Dr. Ruwan Jayasekara", "hospital": "Bright Teeth Care"},
+    ];
+    return SpecialtyDoctorList(title: "Dentists", doctors: doctors);
+  }
+}
+
+class CardiologistPage extends StatelessWidget {
+  const CardiologistPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final doctors = [
+      {"name": "Dr. Sanjaya Rathnayake", "hospital": "Heart Care Hospital"},
+      {"name": "Dr. Malini Perera", "hospital": "Life Cardio Center"},
+    ];
+    return SpecialtyDoctorList(title: "Cardiologists", doctors: doctors);
+  }
+}
+
+class EyePage extends StatelessWidget {
+  const EyePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final doctors = [
+      {"name": "Dr. Lakshmi Perera", "hospital": "Vision Care Center"},
+      {"name": "Dr. Tharindu Silva", "hospital": "Eye Clinic Colombo"},
+    ];
+    return SpecialtyDoctorList(title: "Eye Specialists", doctors: doctors);
+  }
+}
+
+class GeneralPage extends StatelessWidget {
+  const GeneralPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final doctors = [
+      {"name": "Dr. Kavindu Fernando", "hospital": "Family Care Hospital"},
+      {"name": "Dr. Yasara Jayasinghe", "hospital": "Health Plus Clinic"},
+    ];
+    return SpecialtyDoctorList(title: "General Physicians", doctors: doctors);
+  }
+}
+
+class PediatricianPage extends StatelessWidget {
+  const PediatricianPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final doctors = [
+      {"name": "Dr. Sachini Wijesinghe", "hospital": "Kids Care Hospital"},
+      {"name": "Dr. Nimal Perera", "hospital": "Children’s Medical Center"},
+    ];
+    return SpecialtyDoctorList(title: "Pediatricians", doctors: doctors);
+  }
+}
+
+// -------------------- ALL DOCTORS PAGE --------------------
+class AllDoctorsPage extends StatelessWidget {
+  const AllDoctorsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("All Doctors")),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: doctors.length,
+        itemBuilder: (context, index) {
+          final doc = doctors[index];
+          return Card(
+            margin: const EdgeInsets.only(bottom: 16),
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(doc['imageUrl']),
+              ),
+              title: Text(doc['name']),
+              subtitle: Text(doc['specialty']),
+              trailing: ElevatedButton(
+                child: const Text("Book"),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => BookAppointmentPage(
+                        doctorName: doc['name'],
+                        specialty: doc['specialty'],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// -------------------- MESSAGE PAGE --------------------
+class MessagePage extends StatefulWidget {
+  const MessagePage({super.key});
+
+  @override
+  State<MessagePage> createState() => _MessagePageState();
+}
+
+class _MessagePageState extends State<MessagePage> {
+  Map<String, dynamic>? selectedDoctor;
+
+  @override
+  Widget build(BuildContext context) {
+    return selectedDoctor == null
+        ? _doctorListView()
+        : ChatPage(
+            doctor: selectedDoctor!,
+            onBack: () {
+              setState(() => selectedDoctor = null);
+            },
+          );
+  }
+
+  Widget _doctorListView() {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Messages")),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(16),
+        itemCount: doctors.length,
+        itemBuilder: (context, index) {
+          final doc = doctors[index];
+          return Card(
+            margin: const EdgeInsets.only(bottom: 12),
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundImage: NetworkImage(doc['imageUrl']),
+              ),
+              title: Text(doc['name']),
+              subtitle: Text(doc['specialty']),
+              trailing: const Icon(Icons.chat, color: Color(0xFF4F46E5)),
+              onTap: () {
+                setState(() => selectedDoctor = doc);
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+// -------------------- CHAT PAGE --------------------
+class ChatPage extends StatefulWidget {
+  final Map<String, dynamic> doctor;
+  final VoidCallback onBack;
+
+  const ChatPage({super.key, required this.doctor, required this.onBack});
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  final TextEditingController _controller = TextEditingController();
+  final List<Map<String, String>> messages = [];
+
+  void sendMessage() {
+    if (_controller.text.trim().isEmpty) return;
+
+    setState(() {
+      messages.add({"sender": "user", "text": _controller.text.trim()});
+      _controller.clear();
+
+      Future.delayed(const Duration(seconds: 1), () {
+        setState(() {
+          messages.add({
+            "sender": "doctor",
+            "text": "Thank you for your message!",
+          });
+        });
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: NetworkImage(widget.doctor['imageUrl']),
+            ),
+            const SizedBox(width: 10),
+            Text(widget.doctor['name']),
+          ],
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: widget.onBack,
+        ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: messages.length,
+              itemBuilder: (context, index) {
+                final msg = messages[index];
+                bool isUser = msg['sender'] == 'user';
+                return Align(
+                  alignment: isUser
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: isUser
+                          ? const Color(0xFF4F46E5)
+                          : const Color(0xFFEFF1FF),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(
+                      msg['text']!,
+                      style: TextStyle(
+                        color: isUser ? Colors.white : Colors.black87,
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+          const Divider(height: 1),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            color: Colors.white,
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration(
+                      hintText: "Type a message...",
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.send, color: Color(0xFF4F46E5)),
+                  onPressed: sendMessage,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// -------------------- SETTINGS PAGE --------------------
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  bool notificationsEnabled = true;
+  bool darkModeEnabled = false;
+
+  String userEmail = supabase.auth.currentUser?.email ?? "user@email.com";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Settings")),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          _buildSectionTitle("Profile"),
+          Card(
+            child: ListTile(
+              leading: const CircleAvatar(
+                backgroundImage: NetworkImage(
+                  "https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=400&q=80",
+                ),
+              ),
+              title: const Text("User"),
+              subtitle: Text(userEmail),
+              trailing: IconButton(
+                icon: const Icon(Icons.edit, color: Color(0xFF4F46E5)),
+                onPressed: () => _editProfileDialog(),
+              ),
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          _buildSectionTitle("Account"),
+          Card(
+            child: Column(
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.lock, color: Color(0xFF4F46E5)),
+                  title: const Text("Change Password"),
+                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  onTap: () => _changePasswordDialog(),
+                ),
+                const Divider(height: 1),
+                ListTile(
+                  leading: const Icon(Icons.email, color: Color(0xFF4F46E5)),
+                  title: const Text("Update Email"),
+                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  onTap: () => _updateEmailDialog(),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          _buildSectionTitle("Preferences"),
+          Card(
+            child: Column(
+              children: [
+                SwitchListTile(
+                  activeColor: const Color(0xFF4F46E5),
+                  title: const Text("Enable Notifications"),
+                  value: notificationsEnabled,
+                  onChanged: (val) {
+                    setState(() => notificationsEnabled = val);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          "Notifications ${val ? "enabled" : "disabled"}",
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                const Divider(height: 1),
+                SwitchListTile(
+                  activeColor: const Color(0xFF4F46E5),
+                  title: const Text("Dark Mode"),
+                  value: darkModeEnabled,
+                  onChanged: (val) {
+                    setState(() => darkModeEnabled = val);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          "Dark Mode ${val ? "enabled" : "disabled"}",
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          _buildSectionTitle("Support & Privacy"),
+          Card(
+            child: Column(
+              children: [
+                ListTile(
+                  leading: const Icon(
+                    Icons.privacy_tip,
+                    color: Color(0xFF4F46E5),
+                  ),
+                  title: const Text("Privacy Policy"),
+                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const PrivacyPolicyPage(),
+                    ),
+                  ),
+                ),
+                const Divider(height: 1),
+                ListTile(
+                  leading: const Icon(Icons.help, color: Color(0xFF4F46E5)),
+                  title: const Text("Help & Support"),
+                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const HelpSupportPage()),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+
+          ElevatedButton.icon(
+            icon: const Icon(Icons.logout),
+            label: const Text("Logout"),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+            onPressed: () async {
+              await supabase.auth.signOut();
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const LoginPage()),
+                (route) => false,
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Text(
+        title.toUpperCase(),
+        style: const TextStyle(
+          fontWeight: FontWeight.bold,
+          color: Colors.grey,
+          fontSize: 12,
+        ),
+      ),
+    );
+  }
+
+  // ---------------- DIALOGS ----------------
+  void _changePasswordDialog() {
+    final newPasswordController = TextEditingController();
+    final confirmPasswordController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Change Password"),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextField(
+              controller: newPasswordController,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: "New Password"),
+            ),
+            TextField(
+              controller: confirmPasswordController,
+              obscureText: true,
+              decoration: const InputDecoration(labelText: "Confirm Password"),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              if (newPasswordController.text !=
+                  confirmPasswordController.text) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Passwords do not match!")),
+                );
+                return;
+              }
+
+              await supabase.auth.updateUser(
+                UserAttributes(password: newPasswordController.text),
+              );
+
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Password updated successfully!")),
+              );
+            },
+            child: const Text("Update"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _updateEmailDialog() {
+    final emailController = TextEditingController(text: userEmail);
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Update Email"),
+        content: TextField(
+          controller: emailController,
+          decoration: const InputDecoration(labelText: "New Email"),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              await supabase.auth.updateUser(
+                UserAttributes(email: emailController.text.trim()),
+              );
+              setState(() {
+                userEmail = emailController.text.trim();
+              });
+              Navigator.pop(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Email updated successfully!")),
+              );
+            },
+            child: const Text("Update"),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _editProfileDialog() {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Edit Profile"),
+        content: const Text("Profile editing feature coming soon."),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ---------------- PRIVACY POLICY PAGE ----------------
+class PrivacyPolicyPage extends StatelessWidget {
+  const PrivacyPolicyPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Privacy Policy")),
+      body: const Padding(
+        padding: EdgeInsets.all(16),
+        child: Text(
+          "This is the Privacy Policy.\n\n"
+          "Your data is safe with us and we do not share personal information.",
+          style: TextStyle(color: Colors.black54),
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------- HELP & SUPPORT PAGE ----------------
+class HelpSupportPage extends StatelessWidget {
+  const HelpSupportPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Help & Support")),
+      body: const Padding(
+        padding: EdgeInsets.all(16),
+        child: Text(
+          "For support, contact us at:\n\nsupport@hellocare.com\n\n"
+          "You can also call us at +123-456-7890.",
+          style: TextStyle(color: Colors.black54),
+        ),
+      ),
+    );
+  }
+}
+>>>>>>> cb2c022e10b6924f7b4805efd9d621d9b07198b3
