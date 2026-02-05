@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+# doctorapp
+=======
 # doctor
+>>>>>>> origin/SEU/IS/20ICT/077
 
 A new Flutter project.
 
