@@ -60,7 +60,6 @@ class DoctorApp extends StatelessWidget {
           primary: Color(0xFF4F46E5),
           secondary: Color(0xFF0EA5E9),
           surface: Colors.white,
-          background: Color(0xFFF7F9FC),
           onPrimary: Colors.white,
           onSurface: Colors.black87,
         ),
@@ -85,7 +84,7 @@ class DoctorApp extends StatelessWidget {
         navigationBarTheme: NavigationBarThemeData(
           backgroundColor: Colors.white,
           indicatorColor: const Color(0xFF4F46E5).withOpacity(0.12),
-          labelTextStyle: MaterialStateProperty.all(
+          labelTextStyle: WidgetStateProperty.all(
             const TextStyle(color: Colors.black87, fontSize: 12),
           ),
         ),
@@ -123,7 +122,6 @@ class DoctorApp extends StatelessWidget {
   }
 }
 
-// -------------------- LOGIN PAGE --------------------
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -138,78 +136,177 @@ class _LoginPageState extends State<LoginPage> {
 
   Future<void> login() async {
     setState(() => isLoading = true);
+
     try {
       await supabase.auth.signInWithPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const SplashScreen()),
       );
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Login failed: $e")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Login failed: $e")),
+      );
     }
+
     setState(() => isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Login")),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
+      backgroundColor: Colors.grey[200],
+      body: Center(
+        child: Container(
+          width: 900,
+          height: 500,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: const [
+              BoxShadow(color: Colors.black12, blurRadius: 10, spreadRadius: 2)
+            ],
+          ),
+          child: Row(
             children: [
-              const SizedBox(height: 30),
-              const Icon(
-                Icons.local_hospital,
-                size: 80,
-                color: Color(0xFF4F46E5),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                "Welcome Back",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                "Login to continue",
-                style: TextStyle(color: Colors.grey),
-              ),
-              const SizedBox(height: 30),
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(labelText: "Email"),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(labelText: "Password"),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: isLoading ? null : login,
-                  child: isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text("Login"),
+              // LEFT SIDE IMAGE
+              Expanded(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF1E1B4B),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      bottomLeft: Radius.circular(15),
+                    ),
+                  ),
+                  child: Center(
+                    child: Image.asset(
+                      'assets/5.jpg',
+                      width: 300,
+                    ),
+                  ),
                 ),
               ),
-              const SizedBox(height: 12),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => const SignupPage()),
-                  );
-                },
-                child: const Text("Create account"),
+
+              // RIGHT SIDE FORM
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(30),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Hello Care",
+                              style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              "Welcome Back!",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 40),
+
+                      const Text("EMAIL ID"),
+                      const SizedBox(height: 5),
+                      TextField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          hintText: "email@example.com",
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      const Text("PASSWORD"),
+                      const SizedBox(height: 5),
+                      TextField(
+                        controller: passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: "********",
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      const Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          "Forgot Password?",
+                          style: TextStyle(color: Colors.blue),
+                        ),
+                      ),
+
+                      const SizedBox(height: 30),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: isLoading ? null : login,
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 40, vertical: 15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: isLoading
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white)
+                                : const Text("Log In"),
+                          ),
+
+                          const SizedBox(width: 20),
+
+                          TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => const SignupPage()),
+                              );
+                            },
+                            child: const Text(
+                              "Create Account",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ],
           ),
@@ -218,8 +315,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-// -------------------- SIGNUP PAGE --------------------
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
 
@@ -230,65 +325,169 @@ class SignupPage extends StatefulWidget {
 class _SignupPageState extends State<SignupPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
   bool isLoading = false;
 
   Future<void> signup() async {
     setState(() => isLoading = true);
+
     try {
       await supabase.auth.signUp(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Account created! Please login.")),
       );
+
       Navigator.pop(context);
     } catch (e) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Signup failed: $e")));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Signup failed: $e")),
+      );
     }
+
     setState(() => isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Sign Up")),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20),
-          child: Column(
+      backgroundColor: Colors.grey[200],
+      body: Center(
+        child: Container(
+          width: 900,
+          height: 500,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: const [
+              BoxShadow(color: Colors.black12, blurRadius: 10, spreadRadius: 2)
+            ],
+          ),
+          child: Row(
             children: [
-              const SizedBox(height: 30),
-              const Text(
-                "Create Account",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              // LEFT SIDE IMAGE
+              Expanded(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Color(0xFF1E1B4B),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      bottomLeft: Radius.circular(15),
+                    ),
+                  ),
+                  child: Center(
+                    child: Image.asset(
+                      'assets/6.jpg',
+                      width: 300,
+                      height: 400,
+                    ),
+                  ),
+                ),
               ),
-              const SizedBox(height: 8),
-              const Text(
-                "Sign up to get started",
-                style: TextStyle(color: Colors.grey),
-              ),
-              const SizedBox(height: 30),
-              TextField(
-                controller: emailController,
-                decoration: const InputDecoration(labelText: "Email"),
-              ),
-              const SizedBox(height: 16),
-              TextField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: const InputDecoration(labelText: "Password"),
-              ),
-              const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: isLoading ? null : signup,
-                  child: isLoading
-                      ? const CircularProgressIndicator(color: Colors.white)
-                      : const Text("Create Account"),
+
+              // RIGHT SIDE FORM
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(30),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Create Account",
+                              style: TextStyle(
+                                fontSize: 26,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            SizedBox(height: 5),
+                            Text(
+                              "Sign up to continue",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 40),
+
+                      const Text("EMAIL"),
+                      const SizedBox(height: 5),
+                      TextField(
+                        controller: emailController,
+                        decoration: InputDecoration(
+                          hintText: "email@example.com",
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      const Text("PASSWORD"),
+                      const SizedBox(height: 5),
+                      TextField(
+                        controller: passwordController,
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          hintText: "********",
+                          filled: true,
+                          fillColor: Colors.grey[100],
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide: BorderSide.none,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 30),
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: isLoading ? null : signup,
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 40, vertical: 15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: isLoading
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white)
+                                : const Text("Sign Up"),
+                          ),
+
+                          const SizedBox(width: 20),
+
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context); // back to login
+                            },
+                            child: const Text(
+                              "Already have account?",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -828,8 +1027,8 @@ class _BookAppointmentPageState extends State<BookAppointmentPage> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  child: const Text("Confirm Booking"),
                   onPressed: saveAppointment,
+                  child: const Text("Confirm Booking"),
                 ),
               ),
             ],
@@ -1234,8 +1433,6 @@ class _EditAppointmentPageState extends State<EditAppointmentPage> {
     );
   }
 }
-<<<<<<< HEAD
-=======
 
 // -------------------- ALL CATEGORIES PAGE --------------------
 class AllCategoriesPage extends StatelessWidget {
@@ -1722,7 +1919,7 @@ class _SettingsPageState extends State<SettingsPage> {
             child: Column(
               children: [
                 SwitchListTile(
-                  activeColor: const Color(0xFF4F46E5),
+                  activeThumbColor: const Color(0xFF4F46E5),
                   title: const Text("Enable Notifications"),
                   value: notificationsEnabled,
                   onChanged: (val) {
@@ -1738,7 +1935,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
                 const Divider(height: 1),
                 SwitchListTile(
-                  activeColor: const Color(0xFF4F46E5),
+                  activeThumbColor: const Color(0xFF4F46E5),
                   title: const Text("Dark Mode"),
                   value: darkModeEnabled,
                   onChanged: (val) {
