@@ -499,96 +499,173 @@ class _SignupPageState extends State<SignupPage> {
 }
 
 // -------------------- SPLASH SCREEN --------------------
-class SplashScreen extends StatelessWidget {
-  const SplashScreen({super.key});
+class SplashScreen extends StatelessWidget 
+{ const SplashScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: HelloCarePage(),
+    );
+  }
+}
+
+class HelloCarePage extends StatelessWidget {
+  const HelloCarePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFFEEF2FF), Color(0xFFF7F9FC)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+      backgroundColor: const Color(0xFFEFF7F3),
+      body: Column(
+        children: [
+          // 🔝 TOP BAR
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            child: Stack(
+              alignment: Alignment.center,
               children: [
-                // App Logo / Doctor Image
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(24),
-                  child: Image.network(
-                    "https://images.pexels.com/photos/14996490/pexels-photo-14996490.jpeg",
-                    height: 180,
-                    width: 180,
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return const Icon(
-                        Icons.local_hospital,
-                        size: 120,
-                        color: Color(0xFF4F46E5),
-                      );
-                    },
+                // 🩺 Left Icon
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: Colors.teal,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: const Icon(
+                      Icons.local_hospital,
+                      size: 50,
+                      
+                      color: Colors.white,
+                    ),
                   ),
                 ),
 
-                const SizedBox(height: 30),
-
+                // 🏥 Center Title
                 const Text(
-                  "HelloCare",
+                  "Hello Care",
                   style: TextStyle(
-                    fontSize: 36,
+                    fontSize: 50,
                     fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
-                ),
-
-                const SizedBox(height: 10),
-
-                const Text(
-                  "Book doctor appointments easily",
-                  style: TextStyle(color: Colors.black54, fontSize: 16),
-                  textAlign: TextAlign.center,
-                ),
-
-                const SizedBox(height: 40),
-
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                    ),
-                    child: const Text(
-                      "Get Started",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (_) => const HomeScreen()),
-                      );
-                    },
+                    color: Colors.teal,
                   ),
                 ),
               ],
             ),
           ),
+
+          // 📄 BODY
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: Row(
+                children: [
+                  // LEFT TEXT
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Welcome to your\nDoctor Appointment App",
+                          style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+
+                        const SizedBox(height: 30),
+
+                        const Text(
+                          "Hello Care is a smart and easy-to-use doctor appointment application designed to make healthcare more accessible. Users can quickly find trusted doctors, book appointments, and manage their health anytime, anywhere. Our goal is to provide a smooth and reliable experience for better healthcare services.",
+                          style: TextStyle(
+                            color: Colors.black54,
+                            fontSize: 15
+                          ),
+                        ),
+
+                        const SizedBox(height: 40),
+
+                        ElevatedButton(
+                          onPressed: ()  { Navigator.pushReplacement( context, MaterialPageRoute(builder: (_) => const HomeScreen()), ); 
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color.fromARGB(255, 23, 146, 240),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 70, vertical: 20),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: const Text("Get Started",style: TextStyle(fontSize: 20,color: Color.fromARGB(255, 6, 5, 5)),),
+                        )
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(width: 20),
+
+                  // RIGHT IMAGE
+                 Expanded(
+  child: Center(
+    child: Stack(
+      alignment: Alignment.center,
+      children: [
+        // 🔹 BACK SHADOW LAYER (3D effect)
+        Container(
+          width: 280,
+          height: 380,
+          decoration: BoxDecoration(
+            color: Colors.teal.withOpacity(0.2),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          transform: Matrix4.translationValues(15, 15, 0),
         ),
+
+        // 🔹 MAIN CARD
+        Container(
+          width: 400,
+          height: 380,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black26,
+                blurRadius: 20,
+                offset: Offset(10, 10),
+              ),
+              BoxShadow(
+                color: Colors.white,
+                blurRadius: 20,
+                offset: Offset(-10, -10),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(30),
+            child: Image.asset(
+              "assets/8.jpg",
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ],
+    ),
+  ),
+)
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
-
 // -------------------- HOME SCREEN --------------------
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
